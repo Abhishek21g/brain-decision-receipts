@@ -1,0 +1,27 @@
+version: zoning-r1-2026.01
+domain: permit
+rules:
+  - id: R-12
+    condition: "IF zone == R1 AND roof_area_sqft < 500 THEN auto_approve_small_residential"
+    when:
+      domain: permit
+      zone_classification: R1
+      lt: [roof_area_sqft, 500]
+    then: auto_approve
+    mece_bucket: residential_small
+  - id: R-18
+    condition: "IF window_count confidence below threshold THEN require_human_review"
+    when:
+      domain: permit
+      field: window_count_per_bedroom
+      confidence_below: 0.85
+    then: require_human_review
+    mece_bucket: bedroom_safety
+  - id: R-22
+    condition: "IF roof_area >= 500 in R1 THEN require_human_review"
+    when:
+      domain: permit
+      zone_classification: R1
+      gt: [roof_area_sqft, 499]
+    then: require_human_review
+    mece_bucket: residential_large

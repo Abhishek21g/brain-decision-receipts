@@ -1,0 +1,15 @@
+{
+  "case_id": "claim-001",
+  "domain": "claim",
+  "rules_version": "insurance-trip-cancel-2025.12",
+  "rules_version_expected": "insurance-trip-cancel-2026.01",
+  "automation_threshold": 0.85,
+  "model_version": "synthetic-v0.1",
+  "documents": ["allianz-policy.pdf", "claim-form.pdf"],
+  "extracted_values": {
+    "claim_incident_date": { "value": "2026-05-01", "confidence": 0.90, "source": "form_extract" },
+    "notice_hours": { "value": 48, "confidence": 0.88, "source": "form_extract" },
+    "coverage_section_match": { "value": "5.1", "confidence": 0.87, "source": "policy_extract" },
+    "pre_existing_flag": { "value": true, "confidence": 0.95, "source": "medical_history_extract" }
+  }
+}

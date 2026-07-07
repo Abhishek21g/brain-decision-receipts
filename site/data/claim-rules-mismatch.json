@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0",
+  "case_id": "claim-001",
+  "domain": "claim",
+  "rules_version": "insurance-trip-cancel-2025.12",
+  "model_version": "synthetic-v0.1",
+  "stages": [
+    {
+      "name": "extract",
+      "status": "ok",
+      "detail": "2 documents"
+    },
+    {
+      "name": "score",
+      "status": "ok",
+      "detail": "4 value nodes"
+    },
+    {
+      "name": "score",
+      "status": "ok",
+      "detail": "application_confidence=0.87"
+    },
+    {
+      "name": "rules",
+      "status": "ok",
+      "detail": "1 rules fired"
+    },
+    {
+      "name": "decision",
+      "status": "ok",
+      "detail": "reject"
+    }
+  ],
+  "value_confidence": {
+    "claim_incident_date": {
+      "value": "2026-05-01",
+      "confidence": 0.9,
+      "source": "form_extract"
+    },
+    "notice_hours": {
+      "value": 48,
+      "confidence": 0.88,
+      "source": "form_extract"
+    },
+    "coverage_section_match": {
+      "value": "5.1",
+      "confidence": 0.87,
+      "source": "policy_extract"
+    },
+    "pre_existing_flag": {
+      "value": true,
+      "confidence": 0.95,
+      "source": "medical_history_extract"
+    }
+  },
+  "check_confidence": {
+    "trip_cancel_72hr_notice": {
+      "passed": true,
+      "confidence": 0.88,
+      "depends_on": [
+        "claim_incident_date",
+        "notice_hours"
+      ],
+      "message": "trip_cancel_72hr_notice:pass"
+    },
+    "pre_existing_exclusion": {
+      "passed": false,
+      "confidence": 0.87,
+      "depends_on": [
+        "coverage_section_match",
+        "pre_existing_flag"
+      ],
+      "message": "pre_existing_exclusion:fail"
+    }
+  },
+  "application_confidence": 0.87,
+  "automation_threshold": 0.85,
+  "decision": "reject",
+  "rules_fired": [
+    {
+      "id": "C-11",
+      "condition": "IF pre_existing_flag == true THEN reject",
+      "action": "reject",
+      "mece_bucket": "general_exclusions"
+    }
+  ],
+  "human_review_queue": [],
+  "audit_trail_complete": true,
+  "session_recall_used": false,
+  "notes": [
+    "synthetic mock pipeline \u2014 not Brain Co. GovOS/InsuranceOS"
+  ]
+}

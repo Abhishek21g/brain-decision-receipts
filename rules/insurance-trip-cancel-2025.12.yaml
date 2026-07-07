@@ -1,0 +1,17 @@
+version: insurance-trip-cancel-2025.12
+domain: claim
+rules:
+  - id: C-05
+    condition: "IF notice_hours > 72 THEN require_human_review"
+    when:
+      domain: claim
+      gt: [notice_hours, 72]
+    then: require_human_review
+    mece_bucket: trip_cancellation
+  - id: C-11
+    condition: "IF pre_existing_flag == true THEN reject"
+    when:
+      domain: claim
+      eq: [pre_existing_flag, true]
+    then: reject
+    mece_bucket: general_exclusions

@@ -1,0 +1,13 @@
+{
+  "case_id": "permit-001",
+  "domain": "permit",
+  "rules_version": "zoning-r1-2026.01",
+  "automation_threshold": 0.85,
+  "model_version": "synthetic-v0.1",
+  "documents": ["blueprint-page-1.pdf", "permit-application.pdf"],
+  "extracted_values": {
+    "roof_area_sqft": { "value": 420, "confidence": 0.94, "source": "blueprint_extract" },
+    "zone_classification": { "value": "R1", "confidence": 0.92, "source": "form_extract" },
+    "window_count_per_bedroom": { "value": 2, "confidence": 0.91, "source": "blueprint_extract" }
+  }
+}

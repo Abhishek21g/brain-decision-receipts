@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Institutional Agent Decision Receipts</title>
+  <meta name="description" content="Audit-grade decision receipts for regulated permit and claim automation — Bayesian confidence DAG, IF-THEN rules, human-review queue." />
+  <meta property="og:url" content="https://enaguthi.com/brain-decision-receipts/site/" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <nav class="top-nav">
+      <a class="back" href="https://enaguthi.com/">← enaguthi.com</a>
+      <div class="nav-links">
+        <a href="#problem">Problem</a>
+        <a href="#demo">Demo</a>
+        <a href="#cli">CLI</a>
+        <a href="https://github.com/Abhishek21g/brain-decision-receipts">GitHub</a>
+      </div>
+    </nav>
+
+    <section class="hero" id="top">
+      <div>
+        <p class="eyebrow">Regulated casework · synthetic mock</p>
+        <h1>Decision receipts institutions can audit.</h1>
+        <p class="lede">
+          Brain Co. publicly describes Bayesian confidence scoring and executable IF-THEN rules
+          for GovOS and InsuranceOS. This workbench runs a <strong>deterministic mock pipeline</strong>
+          on bundled permit/claim JSON — plan, run, doctor, export receipt. Not affiliated with Brain Co.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#demo">Try live demo</a>
+          <a class="btn" href="https://github.com/Abhishek21g/brain-decision-receipts">View on GitHub</a>
+        </div>
+        <dl class="proof-grid">
+          <div><dt>25</dt><dd>passing tests</dd></div>
+          <div><dt>3</dt><dd>bundled scenarios</dd></div>
+          <div><dt>4</dt><dd>pipeline stages</dd></div>
+        </dl>
+      </div>
+      <aside class="hero-panel">
+        <div class="panel-top"><span><span class="status-dot"></span>brain-receipts</span><span>mock</span></div>
+        <div class="terminal">
+          <span class="prompt">$</span>brain-receipts plan scenarios/permit-auto-approve.json<br />
+          <span class="prompt">$</span>brain-receipts run scenarios/permit-auto-approve.json<br />
+          <span class="prompt">$</span>brain-receipts doctor .brain-receipts/receipt.json
+        </div>
+        <div class="card compact">
+          <h3>Decision</h3>
+          <div id="heroDecision" class="decision-pill good">auto_approve</div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" id="problem">
+      <h2 class="section-title">Institutional pain this models</h2>
+      <div class="solution-grid">
+        <article class="solution-card">
+          <span class="solution-label">Confidence</span>
+          <p>Three-tier DAG: value extraction → regulation checks → application-level automation threshold.</p>
+        </article>
+        <article class="solution-card">
+          <span class="solution-label">Rules</span>
+          <p>YAML IF-THEN rules fire with MECE buckets — auditable alternatives to opaque LLM variance.</p>
+        </article>
+        <article class="solution-card">
+          <span class="solution-label">Doctor</span>
+          <p>Flags low confidence, rules version drift, incomplete audit trail, poisoned session recall.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="demo">
+      <h2 class="section-title">Live receipt explorer</h2>
+      <div class="demo-bar">
+        <label for="scenarioSelect">Scenario</label>
+        <select id="scenarioSelect">
+          <option value="permit-auto-approve.json">Permit — auto approve</option>
+          <option value="permit-human-review.json">Permit — human review (low confidence)</option>
+          <option value="claim-rules-mismatch.json">Claim — rules drift + exclusion</option>
+        </select>
+      </div>
+      <div class="dashboard">
+        <div class="metrics">
+          <article class="metric"><span>Decision</span><strong id="decision">—</strong></article>
+          <article class="metric"><span>App confidence</span><strong id="appConf">—</strong></article>
+          <article class="metric"><span>Threshold</span><strong id="threshold">—</strong></article>
+          <article class="metric"><span>Audit trail</span><strong id="audit">—</strong></article>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <h3>Value confidence</h3>
+            <table id="valueTable"><thead><tr><th>Field</th><th>Value</th><th>Conf</th></tr></thead><tbody></tbody></table>
+          </div>
+          <div class="card">
+            <h3>Check confidence</h3>
+            <table id="checkTable"><thead><tr><th>Check</th><th>Pass</th><th>Conf</th></tr></thead><tbody></tbody></table>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Rules fired</h3>
+          <ul id="rulesList" class="rules-list"></ul>
+        </div>
+        <div class="card">
+          <h3>Doctor findings (client-side)</h3>
+          <ul id="doctorList" class="doctor-list"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="cli">
+      <h2 class="section-title">CLI loop</h2>
+      <p class="lede narrow">Same artifact discipline as Tinker Workbench / sia-eval-harness — receipt JSON is the source of truth.</p>
+      <ol class="loop">
+        <li><strong>plan</strong> — validate case manifest</li>
+        <li><strong>run</strong> — extract → score → rules → decision</li>
+        <li><strong>doctor</strong> — confidence, drift, audit, poisoned recall</li>
+        <li><strong>report</strong> — export receipt JSON</li>
+      </ol>
+    </section>
+
+    <footer class="footer">
+      <p>Synthetic demo inspired by public Brain Co. engineering posts. Not GovOS/InsuranceOS.</p>
+      <p><a href="https://github.com/braincompany/sessiongrep/pull/19">sessiongrep PR #19</a> · independent product artifact</p>
+    </footer>
+  </div>
+</body>
+</html>

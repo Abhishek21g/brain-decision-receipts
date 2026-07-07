@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "case_id": "permit-001",
+  "domain": "permit",
+  "rules_version": "zoning-r1-2026.01",
+  "model_version": "synthetic-v0.1",
+  "stages": [
+    {
+      "name": "extract",
+      "status": "ok",
+      "detail": "2 documents"
+    },
+    {
+      "name": "score",
+      "status": "ok",
+      "detail": "3 value nodes"
+    },
+    {
+      "name": "score",
+      "status": "ok",
+      "detail": "application_confidence=0.91"
+    },
+    {
+      "name": "rules",
+      "status": "ok",
+      "detail": "1 rules fired"
+    },
+    {
+      "name": "decision",
+      "status": "ok",
+      "detail": "auto_approve"
+    }
+  ],
+  "value_confidence": {
+    "roof_area_sqft": {
+      "value": 420,
+      "confidence": 0.94,
+      "source": "blueprint_extract"
+    },
+    "zone_classification": {
+      "value": "R1",
+      "confidence": 0.92,
+      "source": "form_extract"
+    },
+    "window_count_per_bedroom": {
+      "value": 2,
+      "confidence": 0.91,
+      "source": "blueprint_extract"
+    }
+  },
+  "check_confidence": {
+    "bedroom_window_check": {
+      "passed": true,
+      "confidence": 0.91,
+      "depends_on": [
+        "window_count_per_bedroom"
+      ],
+      "message": "bedroom_window_check:pass"
+    },
+    "setback_compliance": {
+      "passed": true,
+      "confidence": 0.92,
+      "depends_on": [
+        "roof_area_sqft",
+        "zone_classification"
+      ],
+      "message": "setback_compliance:pass"
+    }
+  },
+  "application_confidence": 0.91,
+  "automation_threshold": 0.85,
+  "decision": "auto_approve",
+  "rules_fired": [
+    {
+      "id": "R-12",
+      "condition": "IF zone == R1 AND roof_area_sqft < 500 THEN auto_approve_small_residential",
+      "action": "auto_approve",
+      "mece_bucket": "residential_small"
+    }
+  ],
+  "human_review_queue": [],
+  "audit_trail_complete": true,
+  "session_recall_used": false,
+  "notes": [
+    "synthetic mock pipeline \u2014 not Brain Co. GovOS/InsuranceOS"
+  ]
+}
