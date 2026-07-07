@@ -54,10 +54,19 @@
           <span class="prompt">$</span>brain-receipts doctor .brain-receipts/receipt.json<br />
           <span class="prompt">$</span>brain-receipts report .brain-receipts/receipt.json --json
         </div>
-        <div class="hero-mini-metrics">
-          <div><span>Decision</span><strong id="heroDecision" class="decision-pill good">auto_approve</strong></div>
-          <div><span>App conf</span><strong id="heroAppConf">0.910</strong></div>
-          <div><span>Rules fired</span><strong id="heroRulesCount">1</strong></div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <span class="stat-label">Decision</span>
+            <span id="heroDecision" class="stat-value decision-pill good">auto_approve</span>
+          </div>
+          <div class="hero-stat">
+            <span class="stat-label">App confidence</span>
+            <span id="heroAppConf" class="stat-value">0.910</span>
+          </div>
+          <div class="hero-stat">
+            <span class="stat-label">Rules fired</span>
+            <span id="heroRulesCount" class="stat-value">1</span>
+          </div>
         </div>
       </aside>
     </section>
@@ -120,10 +129,22 @@
       </div>
 
       <div class="metrics">
-        <article class="metric"><span>Decision</span><strong id="decision" class="decision-pill">—</strong></article>
-        <article class="metric"><span>Application confidence</span><strong id="appConf">—</strong></article>
-        <article class="metric"><span>Threshold</span><strong id="threshold">—</strong></article>
-        <article class="metric"><span>Audit trail</span><strong id="audit">—</strong></article>
+        <article class="metric">
+          <span class="stat-label">Decision</span>
+          <span id="decision" class="stat-value decision-pill">—</span>
+        </article>
+        <article class="metric">
+          <span class="stat-label">Application confidence</span>
+          <span id="appConf" class="stat-value">—</span>
+        </article>
+        <article class="metric">
+          <span class="stat-label">Threshold</span>
+          <span id="threshold" class="stat-value">—</span>
+        </article>
+        <article class="metric">
+          <span class="stat-label">Audit trail</span>
+          <span id="audit" class="stat-value">—</span>
+        </article>
       </div>
 
       <div class="callout" id="scenarioInsight" hidden></div>

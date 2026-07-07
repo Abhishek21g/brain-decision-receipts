@@ -127,15 +127,14 @@ function renderPipeline(stages) {
   const names = ["extract", "score", "rules", "decision"];
   const status = Object.fromEntries((stages || []).map((s) => [s.name, s]));
   flow.innerHTML = names
-    .map((name, i) => {
+    .map((name) => {
       const stage = status[name];
       const ok = stage && stage.status === "ok";
-      const arrow = i < names.length - 1 ? '<span class="pipe-arrow">→</span>' : "";
       return `<div class="pipe-step ${ok ? "done" : ""}">
-        <span class="pipe-num">0${i + 1}</span>
+        <span class="pipe-num">stage</span>
         <strong>${name}</strong>
         <span class="pipe-detail">${stage?.detail || "pending"}</span>
-      </div>${arrow}`;
+      </div>`;
     })
     .join("");
 }
@@ -233,17 +232,18 @@ function renderReceipt(r) {
   const decCls = decisionClass(dec);
 
   document.getElementById("decision").textContent = dec;
-  document.getElementById("decision").className = `decision-pill ${decCls}`;
+  document.getElementById("decision").className = `stat-value decision-pill ${decCls}`;
   document.getElementById("heroDecision").textContent = dec;
-  document.getElementById("heroDecision").className = `decision-pill ${decCls}`;
+  document.getElementById("heroDecision").className = `stat-value decision-pill ${decCls}`;
   document.getElementById("heroCaseId").textContent = r.case_id || "—";
   document.getElementById("heroAppConf").textContent = fmt(r.application_confidence);
-  document.getElementById("heroRulesCount").textContent = (r.rules_fired || []).length;
+  document.getElementById("heroRulesCount").textContent = String((r.rules_fired || []).length);
 
   document.getElementById("appConf").textContent = fmt(r.application_confidence);
   document.getElementById("threshold").textContent = fmt(r.automation_threshold, 2);
-  document.getElementById("audit").textContent = r.audit_trail_complete ? "complete" : "incomplete";
-  document.getElementById("audit").className = r.audit_trail_complete ? "audit-good" : "audit-bad";
+  const auditEl = document.getElementById("audit");
+  auditEl.textContent = r.audit_trail_complete ? "complete" : "incomplete";
+  auditEl.className = `stat-value ${r.audit_trail_complete ? "audit-good" : "audit-bad"}`;
 
   document.getElementById("caseMeta").textContent = `${r.domain} · ${r.case_id} · rules ${r.rules_version} · model ${r.model_version}`;
 
