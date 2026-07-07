@@ -8,6 +8,11 @@ function decisionClass(d) {
   return "warn";
 }
 
+function dataUrl(file) {
+  const base = window.location.pathname.replace(/\/index\.html$/, "").replace(/\/?$/, "/");
+  return `${base}data/${file}`;
+}
+
 function clientDoctor(r) {
   const findings = [];
   if (r.application_confidence < r.automation_threshold) {
@@ -32,6 +37,7 @@ function clientDoctor(r) {
 }
 
 function renderReceipt(r) {
+  window.__lastReceipt = r;
   const dec = r.decision || "—";
   document.getElementById("decision").textContent = dec;
   document.getElementById("decision").className = `decision-pill ${decisionClass(dec)}`;
@@ -63,9 +69,19 @@ function renderReceipt(r) {
 }
 
 async function loadScenario(file) {
-  const res = await fetch(`./data/${file}`);
-  const data = await res.json();
-  renderReceipt(data);
+  try {
+    const res = await fetch(dataUrl(file), { cache: "no-store" });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    renderReceipt(await res.json());
+  } catch (err) {
+    console.warn("fetch failed, using embedded demo", err);
+    if (window.EMBEDDED_DEMOS && window.EMBEDDED_DEMOS[file]) {
+      renderReceipt(window.EMBEDDED_DEMOS[file]);
+      return;
+    }
+    document.getElementById("doctorList").innerHTML =
+      `<li>[critical] Failed to load demo data: ${err.message}</li>`;
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
