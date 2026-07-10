@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Decision Receipts — Live Runner</title>
+  <meta name="description" content="Run permit and claim scenarios through the decision receipt pipeline — watch extract, score, rules, and decision stages live." />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="./embedded-demos.js"></script>
+  <script src="./shared.js" defer></script>
+  <script src="./runner.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./index.html">
+      <span class="brand-mark">DR</span>
+      Decision Receipts
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="./index.html" data-page="dashboard">Dashboard</a>
+      <a href="./runner.html" data-page="runner" class="active">Live Runner</a>
+      <a href="./vision.html" data-page="vision">The Vision</a>
+    </nav>
+    <div class="header-actions">
+      <a class="btn btn-sm" href="https://github.com/Abhishek21g/brain-decision-receipts">GitHub</a>
+      <button type="button" class="icon-btn" id="themeToggle" aria-label="Toggle theme">◐</button>
+    </div>
+  </header>
+
+  <div class="page">
+    <div class="runner-layout">
+      <aside class="runner-sidebar">
+        <h2>Scenario</h2>
+        <div class="scenario-pick" id="scenarioPick"></div>
+        <h2>Case files</h2>
+        <ul class="file-tree" id="fileTree"></ul>
+        <button type="button" class="btn btn-primary" id="runBtn" style="width:100%;margin-top:1rem">▶ Run pipeline</button>
+      </aside>
+
+      <main class="runner-main">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;flex-wrap:wrap;gap:0.5rem">
+          <h2 style="font-size:1rem;font-weight:600" id="runnerTitle">Select a scenario</h2>
+          <span class="mono" style="font-size:0.75rem;color:var(--text-faint)" id="runnerMeta"></span>
+        </div>
+        <div class="pipeline-steps" id="pipelineSteps">
+          <div class="pipe-card" data-step="extract"><span class="step-label">Stage 1</span><strong>extract</strong><span id="stepExtract">waiting…</span></div>
+          <div class="pipe-card" data-step="score"><span class="step-label">Stage 2</span><strong>score</strong><span id="stepScore">waiting…</span></div>
+          <div class="pipe-card" data-step="rules"><span class="step-label">Stage 3</span><strong>rules</strong><span id="stepRules">waiting…</span></div>
+          <div class="pipe-card" data-step="decision"><span class="step-label">Stage 4</span><strong>decision</strong><span id="stepDecision">waiting…</span></div>
+        </div>
+        <div class="terminal-out" id="terminal" aria-live="polite"><span class="line-dim">$ brain-receipts run — waiting for scenario…</span></div>
+      </main>
+
+      <aside class="runner-inspector">
+        <h2>Receipt inspector</h2>
+        <div class="inspector-metrics">
+          <div class="inspector-stat"><label>Decision</label><span id="inspDecision" class="decision-pill">—</span></div>
+          <div class="inspector-stat"><label>App confidence</label><span id="inspConf">—</span></div>
+          <div class="inspector-stat"><label>Threshold</label><span id="inspThreshold">—</span></div>
+          <div class="inspector-stat"><label>Rules fired</label><span id="inspRules">—</span></div>
+        </div>
+        <h2>Doctor findings</h2>
+        <ul class="findings-list" id="findingsList"><li class="finding"><p>Run pipeline to evaluate receipt.</p></li></ul>
+        <h2 style="margin-top:1rem">Receipt JSON</h2>
+        <pre class="receipt-preview" id="receiptPreview">{}</pre>
+        <div style="display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap">
+          <button type="button" class="btn btn-sm" id="copyBtn">Copy</button>
+          <button type="button" class="btn btn-sm" id="downloadBtn">Download</button>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p>Deterministic mock pipeline — same logic as <code>brain-receipts run</code> CLI.</p>
+  </footer>
+</body>
+</html>

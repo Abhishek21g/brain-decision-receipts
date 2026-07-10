@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Decision Receipts — The Vision</title>
+  <meta name="description" content="Why institutional agents need audit-grade decision receipts — confidence DAGs, IF-THEN rules, and human-review queues." />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="./shared.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./index.html">
+      <span class="brand-mark">DR</span>
+      Decision Receipts
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="./index.html" data-page="dashboard">Dashboard</a>
+      <a href="./runner.html" data-page="runner">Live Runner</a>
+      <a href="./vision.html" data-page="vision" class="active">The Vision</a>
+    </nav>
+    <div class="header-actions">
+      <a class="btn btn-sm" href="https://github.com/Abhishek21g/brain-decision-receipts">GitHub</a>
+      <button type="button" class="icon-btn" id="themeToggle" aria-label="Toggle theme">◐</button>
+    </div>
+  </header>
+
+  <div class="page">
+    <section class="vision-hero">
+      <h1>Receipts institutions can defend in audit.</h1>
+      <p class="subtitle">
+        Regulated automation — permitting, claims, compliance — cannot ship on model answers alone.
+        Buyers need a <strong>receipt</strong>: which fields were extracted, which checks passed,
+        which rules fired, and whether a human must review.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="./runner.html">Try Live Runner</a>
+        <a class="btn" href="./index.html">View Dashboard</a>
+      </div>
+    </section>
+
+    <section class="vision-block">
+      <h2>The problem</h2>
+      <p>
+        GovOS and InsuranceOS buyers ask the same question: <em>can you prove why the system approved or rejected this case?</em>
+        Black-box LLM outputs fail procurement. Logs are not receipts. Spreadsheet confidence is not auditable.
+      </p>
+    </section>
+
+    <section class="vision-block">
+      <h2>The product shape</h2>
+      <div class="compare-grid">
+        <article class="compare-card">
+          <h3>❌ Model answer only</h3>
+          <p class="subtitle" style="margin:0">“Approved.” No field-level confidence. No rule trace. No reviewer queue.</p>
+        </article>
+        <article class="compare-card">
+          <h3>✓ Decision receipt</h3>
+          <p class="subtitle" style="margin:0"><code>plan → run → doctor → report</code> — staged pipeline, confidence DAG, IF-THEN rules, explicit human-review routing.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="vision-block">
+      <h2>Three-layer confidence DAG</h2>
+      <ul>
+        <li><strong>L1 — Value confidence:</strong> per-field extraction scores (blueprint sqft, zone class, claim dates).</li>
+        <li><strong>L2 — Check confidence:</strong> regulation checks that depend on L1 nodes (setback, exclusion).</li>
+        <li><strong>L3 — Application confidence:</strong> min-propagated score that gates automation vs human review.</li>
+      </ul>
+    </section>
+
+    <section class="vision-block">
+      <h2>Doctor, not hope</h2>
+      <p>
+        <code>brain-receipts doctor</code> flags low confidence, rules version drift, audit trail gaps, and decision mismatches —
+        the same gates a reviewer would check before sign-off. The dashboard surfaces these live in Live Runner.
+      </p>
+    </section>
+
+    <section class="vision-block">
+      <h2>Independent work</h2>
+      <p>
+        This demo is synthetic mock data inspired by public Brain Co. engineering posts — <strong>not affiliated</strong>.
+        The upstream contribution track (sessiongrep timeline PR) is separate from this product artifact.
+      </p>
+      <div class="hero-cta" style="margin-top:1rem">
+        <a class="btn" href="https://github.com/Abhishek21g/brain-decision-receipts">Clone the repo</a>
+        <a class="btn" href="https://github.com/braincompany/sessiongrep/pull/21">sessiongrep PR #21</a>
+      </div>
+    </section>
+  </div>
+
+  <footer class="site-footer">
+    <p>Benchmark quality bar: interactive dashboard + live runner — same effort class as production demo sites.</p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => BR.initNav("vision"));
+  </script>
+</body>
+</html>

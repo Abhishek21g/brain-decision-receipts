@@ -31,6 +31,12 @@ pytest
 
 ## Demo
 
+Multi-page workbench (benchmark: [Trust Me Bro](https://trust-me-bro-mu.vercel.app/) quality bar):
+
+- **Dashboard** — charts, heatmap, scenario library
+- **Live Runner** — animated `plan → run` pipeline + receipt inspector
+- **The Vision** — product narrative
+
 https://enaguthi.com/brain-decision-receipts/site/
 
 ## License

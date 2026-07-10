@@ -3,210 +3,103 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Institutional Agent Decision Receipts</title>
-  <meta name="description" content="Audit-grade decision receipts for regulated permit and claim automation — Bayesian confidence DAG, IF-THEN rules, human-review queue." />
-  <meta property="og:url" content="https://enaguthi.com/brain-decision-receipts/site/" />
+  <title>Decision Receipts — Dashboard</title>
+  <meta name="description" content="Audit-grade decision receipts for regulated permit and claim automation — confidence DAG, IF-THEN rules, human-review queue." />
   <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
   <script src="./embedded-demos.js"></script>
-  <script src="./app.js" defer></script>
+  <script src="./shared.js" defer></script>
+  <script src="./dashboard.js" defer></script>
 </head>
 <body>
-  <div class="shell">
-    <nav class="top-nav">
-      <a class="back" href="https://enaguthi.com/">← enaguthi.com</a>
-      <div class="nav-links">
-        <a href="#problem">Problem</a>
-        <a href="#architecture">Architecture</a>
-        <a href="#dashboard">Dashboard</a>
-        <a href="#cli">CLI</a>
-        <a href="https://github.com/Abhishek21g/brain-decision-receipts">GitHub</a>
-      </div>
+  <header class="site-header">
+    <a class="brand" href="./index.html">
+      <span class="brand-mark">DR</span>
+      Decision Receipts
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="./index.html" data-page="dashboard" class="active">Dashboard</a>
+      <a href="./runner.html" data-page="runner">Live Runner</a>
+      <a href="./vision.html" data-page="vision">The Vision</a>
     </nav>
+    <div class="header-actions">
+      <a class="btn btn-sm" href="https://github.com/Abhishek21g/brain-decision-receipts">GitHub</a>
+      <button type="button" class="icon-btn" id="themeToggle" aria-label="Toggle theme">◐</button>
+    </div>
+  </header>
 
-    <section class="hero" id="top">
-      <div>
-        <p class="eyebrow">GovOS · InsuranceOS · synthetic mock</p>
-        <h1>Decision receipts institutions can audit.</h1>
-        <p class="lede">
-          Regulated automation needs more than a model answer — it needs a <strong>receipt</strong>:
-          which fields were extracted, which checks passed, which IF-THEN rules fired, and whether
-          a human must review. This workbench runs a deterministic mock pipeline on bundled
-          permit/claim JSON. Inspired by public Brain Co. posts; not affiliated.
-        </p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="#dashboard">Open dashboard</a>
-          <a class="btn" href="https://github.com/Abhishek21g/brain-decision-receipts">View on GitHub</a>
-        </div>
-        <dl class="proof-grid">
-          <div><dt>25</dt><dd>passing tests</dd></div>
-          <div><dt>3</dt><dd>permit + claim scenarios</dd></div>
-          <div><dt>3-tier</dt><dd>confidence DAG</dd></div>
-        </dl>
-      </div>
-      <aside class="hero-panel">
-        <div class="panel-top"><span><span class="status-dot"></span>brain-receipts</span><span id="heroCaseId">permit-001</span></div>
-        <div class="terminal">
-          <span class="prompt">$</span>brain-receipts run scenarios/permit-auto-approve.json<br />
-          <span class="prompt">$</span>brain-receipts doctor .brain-receipts/receipt.json<br />
-          <span class="prompt">$</span>brain-receipts report .brain-receipts/receipt.json --json
-        </div>
-        <div class="hero-stats">
-          <div class="hero-stat">
-            <span class="stat-label">Decision</span>
-            <span id="heroDecision" class="stat-value decision-pill good">auto_approve</span>
-          </div>
-          <div class="hero-stat">
-            <span class="stat-label">App confidence</span>
-            <span id="heroAppConf" class="stat-value">0.910</span>
-          </div>
-          <div class="hero-stat">
-            <span class="stat-label">Rules fired</span>
-            <span id="heroRulesCount" class="stat-value">1</span>
-          </div>
-        </div>
-      </aside>
-    </section>
-
-    <section class="section" id="problem">
-      <h2 class="section-title">What institutional buyers need</h2>
-      <div class="solution-grid">
-        <article class="solution-card">
-          <span class="solution-label">GovOS · permitting</span>
-          <p>
-            Blueprint extraction → zoning checks → <strong>application-level confidence</strong>.
-            Low confidence on bedroom windows or setbacks routes to a reviewer instead of silent auto-approve.
-          </p>
-        </article>
-        <article class="solution-card">
-          <span class="solution-label">InsuranceOS · claims</span>
-          <p>
-            Policy sections → MECE IF-THEN rules → exclusion checks. Rules version drift and
-            pre-existing conditions must surface as <strong>explicit receipt fields</strong>, not log noise.
-          </p>
-        </article>
-        <article class="solution-card">
-          <span class="solution-label">This workbench</span>
-          <p>
-            <code>plan → run → doctor → report</code> on bundled JSON. Receipt is the artifact;
-            dashboard is the inspector. Independent of sessiongrep PR #19.
-          </p>
-        </article>
+  <div class="page">
+    <section class="hero">
+      <h1>Audit-grade receipts for regulated automation</h1>
+      <p class="subtitle">
+        Independent evaluation of how reliably institutional agents document
+        <strong>what was extracted</strong>, <strong>which checks passed</strong>, and
+        <strong>why a human must review</strong>. Higher automation confidence with complete audit trails means safer casework.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="./runner.html">Run a scenario</a>
+        <a class="btn" href="./vision.html">Read the vision</a>
       </div>
     </section>
 
-    <section class="section" id="architecture">
-      <h2 class="section-title">Deterministic pipeline</h2>
-      <p class="lede narrow">Staged autonomy — no agent wandering. Each stage appends to the receipt audit trail.</p>
-      <div class="pipeline-flow" id="pipelineFlow" aria-label="Pipeline stages"></div>
-      <div class="grid-2 arch-grid">
-        <div class="card">
-          <h3>Confidence DAG (live)</h3>
-          <div id="dagViz" class="dag-viz" aria-label="Confidence dependency graph"></div>
-        </div>
-        <div class="card">
-          <h3>Threshold chart</h3>
-          <canvas id="confidenceChart" height="220"></canvas>
-          <p class="chart-caption">Bars = node confidence · dashed line = automation threshold</p>
-        </div>
+    <div class="control-bar">
+      <span class="control-label">Threshold mode</span>
+      <div class="mode-tabs" role="tablist" aria-label="Threshold mode">
+        <button type="button" class="mode-tab" data-mode="strict" role="tab" aria-selected="false">Strict</button>
+        <button type="button" class="mode-tab active" data-mode="standard" role="tab" aria-selected="true">Standard</button>
+        <button type="button" class="mode-tab" data-mode="lenient" role="tab" aria-selected="false">Lenient</button>
       </div>
+    </div>
+
+    <div class="chart-grid section" style="padding-top:0">
+      <article class="panel">
+        <h3>Scenario Automation Score</h3>
+        <p class="panel-desc">Application confidence per scenario for the selected threshold mode. Higher is more automatable. Ranked left to right.</p>
+        <div class="chart-wrap"><canvas id="scoreChart"></canvas></div>
+      </article>
+
+      <article class="panel">
+        <h3>Threshold Robustness</h3>
+        <p class="panel-desc">Each scenario's automation score as thresholds relax from Strict → Standard → Lenient. Flatter lines hold confidence under pressure.</p>
+        <div class="chart-wrap"><canvas id="robustnessChart"></canvas></div>
+      </article>
+
+      <article class="panel span-2">
+        <h3>Pipeline Confidence Heatmap</h3>
+        <p class="panel-desc">Stage-level confidence per scenario in the selected mode. Greener cells are safer; redder cells need human review.</p>
+        <div id="heatmap" class="heatmap"></div>
+      </article>
+
+      <article class="panel">
+        <h3>Audit Difficulty Ranking</h3>
+        <p class="panel-desc">Scenarios ranked by human-review pressure. Harder cases at the top defeat full automation most often.</p>
+        <ol id="difficultyRank" class="rank-list"></ol>
+      </article>
+
+      <article class="panel">
+        <h3>Decision Outcomes</h3>
+        <p class="panel-desc">Final decision distribution across bundled scenarios for the active threshold mode.</p>
+        <div class="chart-wrap"><canvas id="outcomeChart"></canvas></div>
+      </article>
+    </div>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Scenario Library</h2>
+        <p>Inspect the bundled permit and claim scenarios, then open any case in Live Runner to watch the pipeline emit a receipt.</p>
+      </div>
+      <div id="scenarioLibrary" class="scenario-grid"></div>
     </section>
-
-    <section class="section" id="dashboard">
-      <h2 class="section-title">Live receipt dashboard</h2>
-      <div class="scenario-chips" id="scenarioChips" role="tablist" aria-label="Demo scenarios"></div>
-      <div class="toolbar">
-        <label class="btn btn-primary">
-          Load receipt JSON
-          <input type="file" id="fileInput" accept=".json,application/json" hidden />
-        </label>
-        <button class="btn" id="copyReceipt" type="button">Copy receipt</button>
-        <button class="btn" id="downloadReceipt" type="button">Download JSON</button>
-        <span class="case-meta" id="caseMeta"></span>
-      </div>
-
-      <div class="metrics">
-        <article class="metric">
-          <span class="stat-label">Decision</span>
-          <span id="decision" class="stat-value decision-pill">—</span>
-        </article>
-        <article class="metric">
-          <span class="stat-label">Application confidence</span>
-          <span id="appConf" class="stat-value">—</span>
-        </article>
-        <article class="metric">
-          <span class="stat-label">Threshold</span>
-          <span id="threshold" class="stat-value">—</span>
-        </article>
-        <article class="metric">
-          <span class="stat-label">Audit trail</span>
-          <span id="audit" class="stat-value">—</span>
-        </article>
-      </div>
-
-      <div class="callout" id="scenarioInsight" hidden></div>
-
-      <div class="grid-2">
-        <div class="card">
-          <h3>Value confidence (L1)</h3>
-          <table id="valueTable"><thead><tr><th>Field</th><th>Value</th><th>Conf</th><th></th></tr></thead><tbody></tbody></table>
-        </div>
-        <div class="card">
-          <h3>Check confidence (L2)</h3>
-          <table id="checkTable"><thead><tr><th>Check</th><th>Pass</th><th>Conf</th><th>Depends on</th></tr></thead><tbody></tbody></table>
-        </div>
-      </div>
-
-      <div class="grid-2">
-        <div class="card">
-          <h3>Rules fired</h3>
-          <div id="rulesTable" class="rules-table"></div>
-        </div>
-        <div class="card">
-          <h3>Human review queue</h3>
-          <ul id="reviewQueue" class="review-queue"></ul>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>Doctor findings</h3>
-        <ul id="doctorList" class="doctor-list"></ul>
-      </div>
-
-      <details class="receipt-drawer">
-        <summary>Raw receipt JSON</summary>
-        <pre id="receiptJson" class="receipt-json"></pre>
-      </details>
-    </section>
-
-    <section class="section" id="cli">
-      <h2 class="section-title">Run it locally</h2>
-      <p class="lede narrow">Every run writes <code>.brain-receipts/receipt.json</code> — pipeline stages, confidence nodes, rules fired, decision.</p>
-      <div class="cli-block">
-        <pre><code>git clone https://github.com/Abhishek21g/brain-decision-receipts
-cd brain-decision-receipts && pip install -e ".[dev]"
-
-brain-receipts plan scenarios/permit-auto-approve.json
-brain-receipts run  scenarios/permit-auto-approve.json
-brain-receipts doctor .brain-receipts/receipt.json
-brain-receipts report .brain-receipts/receipt.json --json > examples/permit-receipt.json
-pytest</code></pre>
-      </div>
-      <div class="loop-grid">
-        <article><span>01</span><strong>plan</strong><p>Validate case manifest — domain, rules version, threshold, documents.</p></article>
-        <article><span>02</span><strong>run</strong><p>Mock extract → score DAG → evaluate YAML rules → emit decision.</p></article>
-        <article><span>03</span><strong>doctor</strong><p>Low confidence, rules drift, audit gaps, poisoned session recall.</p></article>
-        <article><span>04</span><strong>report</strong><p>Export receipt JSON or markdown for reviewers / outreach.</p></article>
-      </div>
-    </section>
-
-    <footer class="footer">
-      <p>Synthetic demo inspired by public Brain Co. engineering posts. Not GovOS/InsuranceOS.</p>
-      <p><a href="https://github.com/braincompany/sessiongrep/pull/19">sessiongrep PR #19</a> · <a href="https://github.com/Abhishek21g/brain-decision-receipts">product repo</a></p>
-    </footer>
   </div>
+
+  <a class="btn btn-primary floating-cta" href="./runner.html">Run a scenario →</a>
+
+  <footer class="site-footer">
+    <p>Synthetic demo inspired by public Brain Co. engineering posts. Not affiliated with Brain Co.</p>
+    <p><a href="https://github.com/Abhishek21g/brain-decision-receipts">Product repo</a> · <a href="https://github.com/braincompany/sessiongrep/pull/21">sessiongrep PR #21</a></p>
+  </footer>
 </body>
 </html>
